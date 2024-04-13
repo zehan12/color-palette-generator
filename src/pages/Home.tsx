@@ -8,6 +8,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useElementHeight } from "@/hooks/useElementHeight";
+import { cn } from "@/lib/utils";
 import { generateRandomHex } from "@/utils/color.util";
 import { Copy, Lock, MoveHorizontal, Unlock, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -18,6 +19,15 @@ const Home = () => {
   const [colorArray, setColorArray] = useState(generateRandomHex(5));
   const [isAdjustPaletteOpen, setAdjustPaletteOpen] = useState(false);
   const [lock, setLock] = useState(false);
+  const [hoverColor, setHoverColor] = useState("");
+
+  const handleMouseOver = (color: string) => {
+    setHoverColor(color);
+  };
+
+  const handleMouseOut = (color: string) => {
+    setHoverColor((prev) => (prev === color ? "" : color));
+  };
 
   useEffect(() => {
     const handleUpdateUrl = () => {
@@ -61,11 +71,22 @@ const Home = () => {
           {colorArray.length &&
             colorArray.map((color) => (
               <div
-                className="flex flex-col flex-1 items-center justify-end shadow-2xl"
+                className={cn(
+                  "flex flex-col flex-1 items-center justify-end shadow-2xl"
+                )}
+                onMouseEnter={() => handleMouseOver(color)}
+                onMouseOver={() => handleMouseOver(color)}
+                onMouseOut={() => handleMouseOut(color)}
                 key={color}
                 style={{ background: color }}
               >
-                <div className="absolute bottom-60 flex flex-col gap-8 text-lg text-black/80">
+
+                <div
+                  className={cn(
+                    "absolute bottom-60 flex-col gap-8 text-lg text-black/80",
+                    hoverColor === color ? "flex" : "hidden bg-red-600"
+                  )}
+                >
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
