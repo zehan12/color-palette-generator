@@ -7,19 +7,29 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useElementHeight } from "@/hooks/useElementHeight";
+import { useContainerDimensions } from "@/hooks/useElementHeight";
 import { cn } from "@/lib/utils";
 import { generateRandomHex } from "@/utils/color.util";
-import { Copy, Lock, MoveHorizontal, Unlock, X } from "lucide-react";
+import { Copy, Lock, MoveHorizontal, Plus, Unlock, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const Home = () => {
   const headerRef = useRef(null);
-  const headerHeight = useElementHeight(headerRef);
+  const { height: headerHeight } = useContainerDimensions(headerRef);
   const [colorArray, setColorArray] = useState(generateRandomHex(5));
   const [isAdjustPaletteOpen, setAdjustPaletteOpen] = useState(false);
   const [lock, setLock] = useState(false);
   const [hoverColor, setHoverColor] = useState("");
+  const [isAddButtonHover, setAddButtonHover] = useState(false);
+
+  const handleAddButtonMouseEvent = (color: string) => {
+    if (color === hoverColor) setAddButtonHover(true);
+    return;
+  };
+
+  const handleAddButtonMouseOut = () => {
+    setAddButtonHover(false);
+  };
 
   const handleMouseOver = (color: string) => {
     setHoverColor(color);
@@ -27,6 +37,11 @@ const Home = () => {
 
   const handleMouseOut = (color: string) => {
     setHoverColor((prev) => (prev === color ? "" : color));
+  };
+
+  const handleDeleteColorPaletteItem = (color: string) => {
+    const filteredArray = colorArray.filter((c) => c !== color);
+    setColorArray(filteredArray);
   };
 
   useEffect(() => {
@@ -69,7 +84,7 @@ const Home = () => {
       >
         <div className="text-3xl text-white flex grow transition-width duration-300 ease-linear">
           {colorArray.length &&
-            colorArray.map((color) => (
+            colorArray.map((color: string, idx: number) => (
               <div
                 className={cn(
                   "flex flex-col flex-1 items-center justify-end shadow-2xl"
@@ -78,19 +93,20 @@ const Home = () => {
                 onMouseOver={() => handleMouseOver(color)}
                 onMouseOut={() => handleMouseOut(color)}
                 key={color}
+                id="color-div"
                 style={{ background: color }}
               >
-
                 <div
                   className={cn(
                     "absolute bottom-60 flex-col gap-8 text-lg text-black/80",
-                    hoverColor === color ? "flex" : "hidden bg-red-600"
+                    hoverColor === color ? "flex" : "hidden"
                   )}
                 >
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
+                          onClick={() => handleDeleteColorPaletteItem(color)}
                           className="hover:bg-black/10"
                           size={"icon"}
                           variant={"ghost"}
@@ -155,11 +171,48 @@ const Home = () => {
                     </Tooltip>
                   </TooltipProvider>
                 </div>
+                <div
+                  className="w-full h-40 z-10"
+                  onMouseOver={() => handleAddButtonMouseEvent(color)}
+                  onMouseEnter={() => handleAddButtonMouseEvent(color)}
+                  onMouseOut={handleAddButtonMouseOut}
+                >
+                  {idx !== colorArray.length - 1 && (
+                    <div
+                      key={""}
+                      className={cn(
+                        "w-full ml-6 mr-1 flex justify-end",
+                        isAddButtonHover && color === hoverColor ? "" : "hidden"
+                      )}
+                    >
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={"default"}
+                              size={"icon"}
+                              className="h-12 w-12 rounded-full bg-white hover:bg-gray-200 shadow-xl border-8 border-white"
+                            >
+                              <Plus className="text-black font-sm" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <div className="flex flex-col justify-center items-center">
+                              <p className="font-semibold">Add Color</p>
+                              <p>Keep pressed</p>
+                            </div>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                  )}
+                </div>
                 <div className="my-32 uppercase font-semibold tracking-wider">
                   {color.slice(1)}
                 </div>
               </div>
             ))}
+
           <AdjustPaletteAside
             isAdjustPaletteOpen={isAdjustPaletteOpen}
             setAdjustPaletteOpen={setAdjustPaletteOpen}
