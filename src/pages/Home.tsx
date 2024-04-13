@@ -1,11 +1,16 @@
+import { AdjustPaletteAside } from "@/components/AdjustPaletteAside/AdjustPaletteAside";
 import { Header } from "@/components/Header";
+import { Button } from "@/components/ui/button";
 import { useElementHeight } from "@/hooks/useElementHeight";
+import { cn } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
 
 const Home = () => {
   const headerRef = useRef(null);
   const headerHeight = useElementHeight(headerRef);
   const [colorArray, setColorArray] = useState(handleGenerateRandomColor());
+  const [isAdjustPaletteOpen, setAdjustPaletteOpen] = useState(false);
+  console.log(isAdjustPaletteOpen);
 
   useEffect(() => {
     const handleUpdateUrl = () => {
@@ -21,7 +26,10 @@ const Home = () => {
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.keyCode === 32) setColorArray(handleGenerateRandomColor());
+      if (!isAdjustPaletteOpen && e.keyCode === 32) {
+        e.preventDefault();
+        setColorArray(() => handleGenerateRandomColor());
+      }
     }
 
     document.addEventListener("keydown", handleKeyDown);
@@ -29,16 +37,20 @@ const Home = () => {
     return function cleanup() {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [isAdjustPaletteOpen]);
 
   return (
     <>
-      <Header ref={headerRef} />
+      <Header
+        ref={headerRef}
+        isAdjustPaletteOpen={isAdjustPaletteOpen}
+        setAdjustPaletteOpen={setAdjustPaletteOpen}
+      />
       <div
         className="w-full flex"
         style={{ height: `calc(100vh - ${headerHeight}px)` }}
       >
-        <div className="text-3xl text-white flex grow">
+        <div className="text-3xl text-white flex grow transition-width duration-300 ease-linear">
           {colorArray.length &&
             colorArray.map((color) => (
               <div
@@ -53,9 +65,15 @@ const Home = () => {
                     </div>
                   ))}
                 </div>
-                <div className="my-32 uppercase font-semibold tracking-wider">{color.slice(1)}</div>
+                <div className="my-32 uppercase font-semibold tracking-wider">
+                  {color.slice(1)}
+                </div>
               </div>
             ))}
+          <AdjustPaletteAside
+            isAdjustPaletteOpen={isAdjustPaletteOpen}
+            setAdjustPaletteOpen={setAdjustPaletteOpen}
+          />
         </div>
       </div>
     </>
