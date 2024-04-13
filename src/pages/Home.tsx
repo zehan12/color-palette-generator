@@ -1,16 +1,23 @@
 import { AdjustPaletteAside } from "@/components/AdjustPaletteAside/AdjustPaletteAside";
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useElementHeight } from "@/hooks/useElementHeight";
-import { cn } from "@/lib/utils";
+import { generateRandomHex } from "@/utils/color.util";
+import { Copy, Lock, MoveHorizontal, Unlock, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const Home = () => {
   const headerRef = useRef(null);
   const headerHeight = useElementHeight(headerRef);
-  const [colorArray, setColorArray] = useState(handleGenerateRandomColor());
+  const [colorArray, setColorArray] = useState(generateRandomHex(5));
   const [isAdjustPaletteOpen, setAdjustPaletteOpen] = useState(false);
-  console.log(isAdjustPaletteOpen);
+  const [lock, setLock] = useState(false);
 
   useEffect(() => {
     const handleUpdateUrl = () => {
@@ -28,7 +35,7 @@ const Home = () => {
     function handleKeyDown(e: KeyboardEvent) {
       if (!isAdjustPaletteOpen && e.keyCode === 32) {
         e.preventDefault();
-        setColorArray(() => handleGenerateRandomColor());
+        setColorArray(() => generateRandomHex(5));
       }
     }
 
@@ -58,12 +65,74 @@ const Home = () => {
                 key={color}
                 style={{ background: color }}
               >
-                <div className="absolute bottom-60 flex flex-col gap-8 text-lg text-black">
-                  {["1", "2", "3", "4", "5"].map((opt) => (
-                    <div className="gap-4" key={opt}>
-                      {opt}
-                    </div>
-                  ))}
+                <div className="absolute bottom-60 flex flex-col gap-8 text-lg text-black/80">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          className="hover:bg-black/10"
+                          size={"icon"}
+                          variant={"ghost"}
+                        >
+                          <X />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Remove color</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          className="hover:bg-black/10"
+                          size={"icon"}
+                          variant={"ghost"}
+                        >
+                          <MoveHorizontal />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Drag</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          className="hover:bg-black/10"
+                          size={"icon"}
+                          variant={"ghost"}
+                        >
+                          <Copy />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Copy HEX</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          className="hover:bg-black/10"
+                          size={"icon"}
+                          variant={"ghost"}
+                        >
+                          {lock ? <Lock /> : <Unlock />}
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Toggle Lock</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
                 <div className="my-32 uppercase font-semibold tracking-wider">
                   {color.slice(1)}
@@ -78,15 +147,6 @@ const Home = () => {
       </div>
     </>
   );
-};
-
-const handleGenerateRandomColor = () => {
-  const colors = [];
-  for (let i = 1; i <= 5; i++) {
-    const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
-    colors.push(randomColor);
-  }
-  return colors;
 };
 
 export default Home;
