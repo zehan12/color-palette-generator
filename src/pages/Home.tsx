@@ -1,6 +1,5 @@
 import { Header } from "@/components/Header";
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [colorArray, setColorArray] = useState(handleGenerateRandomColor());
@@ -13,19 +12,26 @@ const Home = () => {
     history.pushState({}, "", newUrlIS);
   };
 
-  const handleNext = () => {
-    setColorArray(handleGenerateRandomColor());
-  };
-
   useEffect(() => {
     handleUpdateUrl();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colorArray]);
 
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.keyCode === 32) setColorArray(handleGenerateRandomColor());
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return function cleanup() {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <>
       <div>
-        <button onClick={handleNext}>refresh</button>
         <div onClick={handleUpdateUrl} className="bg-red-400">
           url params:{colorArray.join("").replaceAll("#", "-").slice(1)}
         </div>
