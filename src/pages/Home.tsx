@@ -53,7 +53,7 @@ const Home = () => {
                     </div>
                   ))}
                 </div>
-                <div className="my-32">{color.slice(1)}</div>
+                <div className="my-32 uppercase font-semibold tracking-wider">{color.slice(1)}</div>
               </div>
             ))}
         </div>
