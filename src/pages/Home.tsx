@@ -1,18 +1,32 @@
 import { Header } from "@/components/Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [colorArray, setColorArray] = useState(handleGenerateRandomColor());
+
+  const handleUpdateUrl = () => {
+    const newUrlIS =
+      window.location.origin +
+      "/" +
+      colorArray.join("").replaceAll("#", "-").slice(1);
+    history.pushState({}, "", newUrlIS);
+  };
 
   const handleNext = () => {
     setColorArray(handleGenerateRandomColor());
   };
 
+  useEffect(() => {
+    handleUpdateUrl();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [colorArray]);
+
   return (
     <>
       <div>
         <button onClick={handleNext}>refresh</button>
-        <div>
+        <div onClick={handleUpdateUrl} className="bg-red-400">
           url params:{colorArray.join("").replaceAll("#", "-").slice(1)}
         </div>
       </div>
