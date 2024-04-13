@@ -97,9 +97,11 @@ const Home = () => {
                 style={{ background: color }}
               >
                 <div
+                  style={{
+                    visibility: hoverColor === color ? "visible" : "hidden",
+                  }}
                   className={cn(
-                    "absolute bottom-60 flex-col gap-8 text-lg text-black/80",
-                    hoverColor === color ? "flex" : "hidden"
+                    "absolute bottom-60 flex-col gap-8 text-lg text-black/80 flex"
                   )}
                 >
                   <TooltipProvider>
@@ -159,6 +161,7 @@ const Home = () => {
                       <TooltipTrigger asChild>
                         <Button
                           className="hover:bg-black/10"
+                          style={{ visibility: "visible" }}
                           size={"icon"}
                           variant={"ghost"}
                         >
