@@ -1,24 +1,31 @@
 import { useEffect, useState, RefObject } from "react";
 
-export const useElementHeight = (elementRef: RefObject<HTMLElement>) => {
-  const [height, setHeight] = useState<number>(0);
+export const useContainerDimensions = (elementRef: RefObject<HTMLElement>) => {
+  const [dimensions, setDimensions] = useState<{
+    width: number;
+    height: number;
+  }>({ width: 0, height: 0 });
 
   useEffect(() => {
-    const updateHeight = () => {
-      if (elementRef.current) {
-        const newHeight = elementRef.current.offsetHeight;
-        setHeight(newHeight);
-      }
+    const getDimensions = () => ({
+      width: elementRef.current ? elementRef.current.offsetWidth : 0,
+      height: elementRef.current ? elementRef.current.offsetHeight : 0,
+    });
+
+    const handleResize = () => {
+      setDimensions(getDimensions());
     };
 
-    updateHeight();
+    if (elementRef.current) {
+      setDimensions(getDimensions());
+    }
 
-    window.addEventListener("resize", updateHeight);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("resize", updateHeight);
+      window.removeEventListener("resize", handleResize);
     };
   }, [elementRef]);
 
-  return height;
+  return dimensions;
 };
