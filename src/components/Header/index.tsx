@@ -10,17 +10,22 @@ import {
 } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
+import { RefObject, forwardRef } from "react";
 
-export const Header = () => {
+type HeaderProps = {
+  ref: RefObject<HTMLElement>;
+};
+
+export const Header = forwardRef<HTMLElement, HeaderProps>((props, ref) => {
   return (
-    <nav className="bg-white w-full border-b md:border-0">
+    <nav ref={ref} className="bg-white w-full border-b md:border-0">
       <div className="items-center justify-between mx-5 md:flex ">
         <div className="flex items-center justify-between py-3 md:py-5 md:block">
           <h1 className="text-sm font-base text-gray-500">
             Press the spacebar to generate color palettes!
           </h1>
         </div>
-        <div className="justify-center items-center md:flex cursor-pointer gap-3">
+        <div className="flex justify-center items-center cursor-pointer gap-3">
           <Button variant={"ghost"}>
             <Ellipsis />
           </Button>
@@ -68,4 +73,4 @@ export const Header = () => {
       </div>
     </nav>
   );
-};
+});

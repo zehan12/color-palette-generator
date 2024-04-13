@@ -1,20 +1,22 @@
 import { Header } from "@/components/Header";
-import { useEffect, useState } from "react";
+import { useElementHeight } from "@/hooks/useElementHeight";
+import { useEffect, useRef, useState } from "react";
 
 const Home = () => {
+  const headerRef = useRef(null);
+  const headerHeight = useElementHeight(headerRef);
   const [colorArray, setColorArray] = useState(handleGenerateRandomColor());
 
-  const handleUpdateUrl = () => {
-    const newUrlIS =
-      window.location.origin +
-      "/" +
-      colorArray.join("").replaceAll("#", "-").slice(1);
-    history.pushState({}, "", newUrlIS);
-  };
-
   useEffect(() => {
+    const handleUpdateUrl = () => {
+      const newUrlIS =
+        window.location.origin +
+        "/" +
+        colorArray.join("").replaceAll("#", "-").slice(1);
+      history.pushState({}, "", newUrlIS);
+    };
+
     handleUpdateUrl();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colorArray]);
 
   useEffect(() => {
@@ -31,13 +33,16 @@ const Home = () => {
 
   return (
     <>
-      <Header />
-      <div className="w-full h-[93.3vh] bg-[#EF798A] flex">
+      <Header ref={headerRef} />
+      <div
+        className="w-full flex"
+        style={{ height: `calc(100vh - ${headerHeight}px)` }}
+      >
         <div className="text-3xl text-white flex grow">
           {colorArray.length &&
             colorArray.map((color) => (
               <div
-                className="flex flex-col flex-1 items-center justify-end"
+                className="flex flex-col flex-1 items-center justify-end shadow-2xl"
                 key={color}
                 style={{ background: color }}
               >
