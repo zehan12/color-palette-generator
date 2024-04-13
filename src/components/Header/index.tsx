@@ -1,3 +1,71 @@
+import {
+  Ellipsis,
+  Camera,
+  Redo,
+  Undo,
+  Glasses,
+  SunMedium,
+  Eye,
+  Share2,
+} from "lucide-react";
+import { Separator } from "../ui/separator";
+import { Button } from "../ui/button";
+
 export const Header = () => {
-  return <div>header</div>;
+  return (
+    <nav className="bg-white w-full border-b md:border-0">
+      <div className="items-center justify-between mx-5 md:flex ">
+        <div className="flex items-center justify-between py-3 md:py-5 md:block">
+          <h1 className="text-sm font-base text-gray-500">
+            Press the spacebar to generate color palettes!
+          </h1>
+        </div>
+        <div className="justify-center items-center md:flex cursor-pointer gap-3">
+          <Button variant={"ghost"}>
+            <Ellipsis />
+          </Button>
+
+          <Separator
+            className="bg-gray-300 h-7 w-[1px]"
+            orientation="vertical"
+          />
+          <Button variant={"ghost"}>
+            <Camera />
+          </Button>
+          <Separator
+            className="bg-gray-300 h-7 w-[1px]"
+            orientation="vertical"
+          />
+          <Button variant={"ghost"}>
+            <Undo />
+          </Button>
+          <Button variant={"ghost"}>
+            <Redo />
+          </Button>
+          <Separator
+            className="bg-gray-300 h-7 w-[1px]"
+            orientation="vertical"
+          />
+          <Button variant={"ghost"}>
+            <Glasses />
+          </Button>
+          <Button variant={"ghost"}>
+            <SunMedium />
+          </Button>
+          <Separator
+            className="bg-gray-300 h-7 w-[1px]"
+            orientation="vertical"
+          />
+          <Button variant={"ghost"} className="gap-2">
+            <Eye />
+            <p>View</p>
+          </Button>
+          <Button variant={"ghost"} className="gap-2">
+            <Share2 />
+            <p>Exports</p>
+          </Button>
+        </div>
+      </div>
+    </nav>
+  );
 };

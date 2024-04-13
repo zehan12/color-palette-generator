@@ -31,13 +31,8 @@ const Home = () => {
 
   return (
     <>
-      <div>
-        <div onClick={handleUpdateUrl} className="bg-red-400">
-          url params:{colorArray.join("").replaceAll("#", "-").slice(1)}
-        </div>
-      </div>
       <Header />
-      <div className="w-full h-[94.2vh] bg-[#EF798A] flex">
+      <div className="w-full h-[93.3vh] bg-[#EF798A] flex">
         <div className="text-3xl text-white flex grow">
           {colorArray.length &&
             colorArray.map((color) => (
