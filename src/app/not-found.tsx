@@ -33,7 +33,7 @@ export default function NotFound() {
                             </span>
                         ))}
                     </div>
-                    <p className="md:-mt-10 mt-0 font-bold">Ouch! Page Not Found</p>
+                    <p className="md:-mt-10 mt-0 font-bold text-2xl">Ouch! Page Not Found</p>
 
                     {/* Message */}
                     <div className="max-w-sm text-center mt-6 px-4">
