@@ -1,0 +1,1 @@
+export { GradientPaletteCardGrid } from "./gradient-palette-card-grid"

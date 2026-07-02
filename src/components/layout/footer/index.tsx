@@ -14,7 +14,7 @@ export const Footer = memo(({ discover = false }: FooterProps) => {
 
     return (
         <footer className="sticky top-[100vh]">
-            <section className="mx-7 my-10 md:mx-60 md:my-10 mb-10 md:mb-20">
+            <section className="mx-7 my-10 md:mx-60 md:my-10 mb-10 md:mb-20 border-2">
                 <div className='mx-auto grid grid-cols-2 md:grid-cols-6 gap-10 md:gap-4'>
                     <div className="col-span-2 space-y-5 text-sm">
                         <div className='flex items-center gap-3'>

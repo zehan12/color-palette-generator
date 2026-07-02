@@ -48,7 +48,7 @@ export const TopNavigationalHeader = () => {
         >
             <div className={cn(
                 'flex items-center justify-between',
-                isGeneratePage ? 'container-fluid' : 'container'
+                // isGeneratePage ? 'container-fluid' : 'container'
             )}>
                 <Link href="/" className="flex items-center">
                     <Image
@@ -128,11 +128,9 @@ export const TopNavigationalHeader = () => {
                     <NavigationMenu>
                         <NavigationMenuList>
                             <NavigationMenuItem>
-                                <Link href="/explore" passHref>
-                                    <NavigationMenuLink className={navigationMenuTriggerStyle() + (pathname === '/explore' ? ' font-semibold' : '')}>
-                                        Explore
-                                    </NavigationMenuLink>
-                                </Link>
+                                <NavigationMenuLink href='/explore' className={navigationMenuTriggerStyle() + (pathname === '/explore' ? ' font-semibold' : '')}>
+                                    Explore
+                                </NavigationMenuLink>
                             </NavigationMenuItem>
 
                             <NavigationMenuItem>
@@ -154,61 +152,62 @@ export const TopNavigationalHeader = () => {
                                 >
                                     <ul className="grid gap-1 p-2 w-[200px]">
                                         <li>
-                                            <Link href="/generate" passHref>
-                                                <NavigationMenuLink
-                                                    className={cn(
-                                                        'px-4 py-2 rounded-md transition-colors hover:bg-accent/10',
-                                                        pathname === '/generate' ? 'bg-accent/10 font-semibold' : ''
-                                                    )}
-                                                >
-                                                    Generate Gradient
-                                                </NavigationMenuLink>
-                                            </Link>
+                                            <NavigationMenuLink
+                                                href="/generate"
+                                                className={cn(
+                                                    'px-4 py-2 rounded-md transition-colors hover:bg-accent/10',
+                                                    pathname === '/generate' ? 'bg-accent/10 font-semibold' : ''
+                                                )}
+                                            >
+                                                Generate Gradient
+                                            </NavigationMenuLink>
                                         </li>
                                         <li>
-                                            <Link href="/generate-palette">
-                                                <NavigationMenuLink className={cn(
+                                            <NavigationMenuLink
+                                                href="/generate-palette"
+                                                className={cn(
                                                     'px-4 py-2 rounded-md transition-colors hover:bg-accent/10',
                                                     pathname === '/generate-palette' ? 'font-semibold' : '')}>
-                                                    Generate Palette
-                                                </NavigationMenuLink>
-                                            </Link>
+                                                Generate Palette
+                                            </NavigationMenuLink>
                                         </li>
                                     </ul>
                                 </NavigationMenuContent>
                             </NavigationMenuItem>
 
                             <NavigationMenuItem>
-                                <Link href="/palette">
-                                    <NavigationMenuLink className={navigationMenuTriggerStyle() + (pathname === '/palette' ? ' font-semibold' : '')}>
-                                        Palettes
-                                    </NavigationMenuLink>
-                                </Link>
+
+                                <NavigationMenuLink
+                                    href="/palette"
+                                    className={navigationMenuTriggerStyle() + (pathname === '/palette' ? ' font-semibold' : '')}>
+                                    Palettes
+                                </NavigationMenuLink>
                             </NavigationMenuItem>
 
                             <NavigationMenuItem>
-                                <Link href="/contrast-checker">
-                                    <NavigationMenuLink className={navigationMenuTriggerStyle() + (pathname === '/contrast-checker' ? ' font-semibold' : '')}>
-                                        Contrast Checker
-                                    </NavigationMenuLink>
-                                </Link>
+                                <NavigationMenuLink
+                                    href="/contrast-checker"
+                                    className={navigationMenuTriggerStyle() + (pathname === '/contrast-checker' ? ' font-semibold' : '')}>
+                                    Contrast Checker
+                                </NavigationMenuLink>
                             </NavigationMenuItem>
 
                             <NavigationMenuItem>
-                                <Link href="/extension">
-                                    <NavigationMenuLink className={navigationMenuTriggerStyle() + (pathname === '/extension' ? ' font-semibold' : '')}>
-                                        Chrome Extension
-                                    </NavigationMenuLink>
-                                </Link>
+
+                                <NavigationMenuLink
+                                    href="/extension"
+                                    className={navigationMenuTriggerStyle() + (pathname === '/extension' ? ' font-semibold' : '')}>
+                                    Chrome Extension
+                                </NavigationMenuLink>
                             </NavigationMenuItem>
 
                             <NavigationMenuItem>
-                                <Link href="/saved">
-                                    <NavigationMenuLink className={navigationMenuTriggerStyle() + ' flex items-center gap-1' + (pathname === '/saved' ? ' font-semibold' : '')}>
-                                        <Heart className="h-4 w-4 fill-accent" />
-                                        Saved
-                                    </NavigationMenuLink>
-                                </Link>
+                                <NavigationMenuLink
+                                    href="/saved"
+                                    className={navigationMenuTriggerStyle() + ' flex items-center gap-1' + (pathname === '/saved' ? ' font-semibold' : '')}>
+                                    <Heart className="h-4 w-4 fill-accent" />
+                                    Saved
+                                </NavigationMenuLink>
                             </NavigationMenuItem>
                         </NavigationMenuList>
                     </NavigationMenu>
